@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { PageHeader } from "@/components/page-header";
 import { LazyImage } from "@/components/lazy-image";
-import { galleryImages, photo } from "@/data/site";
+import { galleryImages, galleryCategories, photo } from "@/data/site";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -22,6 +22,9 @@ export const Route = createFileRoute("/gallery")({
 
 function Gallery() {
   const [active, setActive] = useState<string | null>(null);
+  const [cat, setCat] = useState<(typeof galleryCategories)[number]>("All");
+
+  const shown = cat === "All" ? galleryImages : galleryImages.filter((g) => g.category === cat);
 
   return (
     <>
@@ -32,11 +35,24 @@ function Gallery() {
         image={photo(9, 1600)}
       />
 
-      <section className="container-px py-20 lg:py-28">
+      <section className="container-px py-16 lg:py-24">
+        <div className="mb-10 flex flex-wrap justify-center gap-2">
+          {galleryCategories.map((c) => (
+            <button
+              key={c}
+              onClick={() => setCat(c)}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                cat === c ? "bg-accent text-accent-foreground" : "border border-border text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
         <div className="columns-2 gap-4 sm:columns-3 lg:columns-4 [&>*]:mb-4">
-          {galleryImages.map((g, i) => (
+          {shown.map((g, i) => (
             <motion.button
-              key={i}
+              key={g.src}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
@@ -53,6 +69,7 @@ function Gallery() {
           ))}
         </div>
       </section>
+
 
       <AnimatePresence>
         {active && (

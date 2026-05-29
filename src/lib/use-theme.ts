@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 export type Theme = "light" | "dark";
 
 export function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
+  if (typeof window === "undefined") return "dark";
   const stored = window.localStorage.getItem("sfa-theme") as Theme | null;
   if (stored === "light" || stored === "dark") return stored;
-  return "light";
+  return "dark";
 }
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
     setTheme(getInitialTheme());

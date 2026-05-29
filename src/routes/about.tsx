@@ -6,7 +6,7 @@ import { Counter } from "@/components/counter";
 import { SectionHeading } from "@/components/section-heading";
 import { LazyImage } from "@/components/lazy-image";
 import { CtaSection } from "@/components/cta-section";
-import { business, photo, stats } from "@/data/site";
+import { business, photo, stats, timeline } from "@/data/site";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -80,7 +80,48 @@ function About() {
         </div>
       </section>
 
+      <section className="container-px py-16 lg:py-24">
+        <div className="grid gap-6 md:grid-cols-2">
+          <Reveal className="rounded-3xl bg-card p-8 shadow-soft ring-1 ring-border">
+            <Target className="h-8 w-8 text-accent" />
+            <h3 className="mt-4 text-xl font-bold">Our Mission</h3>
+            <p className="mt-2 leading-relaxed text-muted-foreground">
+              To make world-class, science-backed fitness accessible to every Indian — with coaching, accountability and care that delivers lasting results.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1} className="rounded-3xl bg-card p-8 shadow-soft ring-1 ring-border">
+            <Eye className="h-8 w-8 text-accent" />
+            <h3 className="mt-4 text-xl font-bold">Our Vision</h3>
+            <p className="mt-2 leading-relaxed text-muted-foreground">
+              To build India's most trusted premium fitness chain — a community where strength, health and confidence are within everyone's reach.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-secondary/40 py-16 lg:py-24">
+        <div className="container-px">
+          <SectionHeading eyebrow="Our Journey" title="Milestones that built us" subtitle="From a single floor in Noida to India's premium fitness destination." />
+          <div className="relative mx-auto mt-14 max-w-3xl">
+            <div className="absolute left-4 top-0 h-full w-px bg-border sm:left-1/2" />
+            <div className="space-y-8">
+              {timeline.map((t, i) => (
+                <Reveal key={t.year} className={`relative pl-12 sm:w-1/2 sm:pl-0 ${i % 2 === 0 ? "sm:pr-12 sm:text-right" : "sm:ml-auto sm:pl-12"}`}>
+                  <span className={`absolute left-2.5 top-1.5 h-4 w-4 rounded-full bg-accent ring-4 ring-background sm:left-auto ${i % 2 === 0 ? "sm:-right-2" : "sm:-left-2"}`} />
+                  <div className="rounded-2xl bg-card p-6 shadow-soft ring-1 ring-border">
+                    <span className="font-display text-2xl font-bold text-accent">{t.year}</span>
+                    <h3 className="mt-1 text-lg font-bold">{t.title}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{t.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="container-px py-20 lg:py-28">
+
         <Reveal className="mx-auto grid max-w-5xl items-center gap-10 rounded-3xl bg-card p-8 shadow-soft ring-1 ring-border md:grid-cols-[260px_1fr] md:p-12">
           <LazyImage src={photo(24, 700)} alt={business.owner} className="aspect-square w-full rounded-3xl object-cover" />
           <div>

@@ -17,7 +17,7 @@ import { ScrollProgress } from "../components/scroll-progress";
 import { BackToTop } from "../components/back-to-top";
 import { FloatingWhatsApp } from "../components/floating-whatsapp";
 
-const themeScript = `(function(){try{var t=localStorage.getItem('sfa-theme');if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem('sfa-theme');if(t!=='light'){document.documentElement.classList.add('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`;
 
 function NotFoundComponent() {
   return (

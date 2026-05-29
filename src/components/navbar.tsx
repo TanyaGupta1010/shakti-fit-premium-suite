@@ -9,11 +9,8 @@ const links = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/programs", label: "Programs" },
-  { to: "/trainers", label: "Trainers" },
-  { to: "/facilities", label: "Facilities" },
-  { to: "/membership", label: "Membership" },
+  { to: "/membership", label: "Memberships" },
   { to: "/gallery", label: "Gallery" },
-  { to: "/bmi", label: "BMI" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
