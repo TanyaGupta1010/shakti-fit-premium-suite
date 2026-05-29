@@ -11,10 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrainersRouteImport } from './routes/trainers'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as FacilitiesRouteImport } from './routes/facilities'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as BmiRouteImport } from './routes/bmi'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -26,6 +29,11 @@ const TrainersRoute = TrainersRouteImport.update({
 const TestimonialsRoute = TestimonialsRouteImport.update({
   id: '/testimonials',
   path: '/testimonials',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgramsRoute = ProgramsRouteImport.update({
@@ -48,6 +56,16 @@ const FacilitiesRoute = FacilitiesRouteImport.update({
   path: '/facilities',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BmiRoute = BmiRouteImport.update({
+  id: '/bmi',
+  path: '/bmi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -62,20 +80,26 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/bmi': typeof BmiRoute
+  '/contact': typeof ContactRoute
   '/facilities': typeof FacilitiesRoute
   '/gallery': typeof GalleryRoute
   '/membership': typeof MembershipRoute
   '/programs': typeof ProgramsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/trainers': typeof TrainersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/bmi': typeof BmiRoute
+  '/contact': typeof ContactRoute
   '/facilities': typeof FacilitiesRoute
   '/gallery': typeof GalleryRoute
   '/membership': typeof MembershipRoute
   '/programs': typeof ProgramsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/trainers': typeof TrainersRoute
 }
@@ -83,10 +107,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/bmi': typeof BmiRoute
+  '/contact': typeof ContactRoute
   '/facilities': typeof FacilitiesRoute
   '/gallery': typeof GalleryRoute
   '/membership': typeof MembershipRoute
   '/programs': typeof ProgramsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/trainers': typeof TrainersRoute
 }
@@ -95,30 +122,39 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/bmi'
+    | '/contact'
     | '/facilities'
     | '/gallery'
     | '/membership'
     | '/programs'
+    | '/sitemap.xml'
     | '/testimonials'
     | '/trainers'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/bmi'
+    | '/contact'
     | '/facilities'
     | '/gallery'
     | '/membership'
     | '/programs'
+    | '/sitemap.xml'
     | '/testimonials'
     | '/trainers'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/bmi'
+    | '/contact'
     | '/facilities'
     | '/gallery'
     | '/membership'
     | '/programs'
+    | '/sitemap.xml'
     | '/testimonials'
     | '/trainers'
   fileRoutesById: FileRoutesById
@@ -126,10 +162,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  BmiRoute: typeof BmiRoute
+  ContactRoute: typeof ContactRoute
   FacilitiesRoute: typeof FacilitiesRoute
   GalleryRoute: typeof GalleryRoute
   MembershipRoute: typeof MembershipRoute
   ProgramsRoute: typeof ProgramsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestimonialsRoute: typeof TestimonialsRoute
   TrainersRoute: typeof TrainersRoute
 }
@@ -148,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/testimonials'
       fullPath: '/testimonials'
       preLoaderRoute: typeof TestimonialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/programs': {
@@ -178,6 +224,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FacilitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bmi': {
+      id: '/bmi'
+      path: '/bmi'
+      fullPath: '/bmi'
+      preLoaderRoute: typeof BmiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -198,10 +258,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  BmiRoute: BmiRoute,
+  ContactRoute: ContactRoute,
   FacilitiesRoute: FacilitiesRoute,
   GalleryRoute: GalleryRoute,
   MembershipRoute: MembershipRoute,
   ProgramsRoute: ProgramsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestimonialsRoute: TestimonialsRoute,
   TrainersRoute: TrainersRoute,
 }
