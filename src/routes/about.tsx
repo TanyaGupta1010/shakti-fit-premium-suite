@@ -6,7 +6,7 @@ import { Counter } from "@/components/counter";
 import { SectionHeading } from "@/components/section-heading";
 import { LazyImage } from "@/components/lazy-image";
 import { CtaSection } from "@/components/cta-section";
-import { business, photo, stats } from "@/data/site";
+import { business, photo, stats, timeline } from "@/data/site";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
