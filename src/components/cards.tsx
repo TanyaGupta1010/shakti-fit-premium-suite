@@ -1,22 +1,30 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Clock, Gauge, Star, Instagram, Twitter, Linkedin, Award, Check } from "lucide-react";
+import { ArrowUpRight, Clock, Gauge, Star, Instagram, Twitter, Linkedin, Award, Check, ArrowRight } from "lucide-react";
 import { LazyImage } from "./lazy-image";
 import { RevealItem } from "./reveal";
 
 export function ProgramCard({
   program,
 }: {
-  program: { name: string; desc: string; img: string; level: string; duration: string };
+  program: {
+    name: string;
+    desc: string;
+    img: string;
+    level: string;
+    duration: string;
+    overview?: string;
+    benefits?: string[];
+  };
 }) {
   return (
-    <RevealItem className="group relative overflow-hidden rounded-3xl bg-card shadow-soft ring-1 ring-border transition-all duration-500 hover:shadow-elegant">
-      <div className="relative aspect-[4/3] overflow-hidden">
+    <RevealItem className="group flex flex-col overflow-hidden rounded-3xl bg-card shadow-soft ring-1 ring-border transition-all duration-500 hover:shadow-elegant">
+      <div className="relative aspect-[16/10] overflow-hidden">
         <LazyImage
           src={program.img}
           alt={program.name}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/20 to-transparent" />
         <div className="absolute bottom-4 left-4 flex gap-2">
           <span className="flex items-center gap-1 rounded-full bg-background/85 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
             <Gauge className="h-3 w-3 text-accent" /> {program.level}
@@ -26,16 +34,32 @@ export function ProgramCard({
           </span>
         </div>
       </div>
-      <div className="p-6">
+      <div className="flex flex-1 flex-col p-6">
         <h3 className="flex items-center justify-between text-xl font-bold">
           {program.name}
           <ArrowUpRight className="h-5 w-5 text-accent opacity-0 transition-opacity group-hover:opacity-100" />
         </h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{program.desc}</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{program.overview ?? program.desc}</p>
+        {program.benefits && (
+          <ul className="mt-4 space-y-2">
+            {program.benefits.map((b) => (
+              <li key={b} className="flex items-center gap-2 text-sm text-foreground/85">
+                <Check className="h-4 w-4 shrink-0 text-accent" /> {b}
+              </li>
+            ))}
+          </ul>
+        )}
+        <Link
+          to="/contact"
+          className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground transition-transform hover:scale-[1.03]"
+        >
+          Start Program <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </RevealItem>
   );
 }
+
 
 export function FacilityCard({
   facility,
