@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { PageHeader } from "@/components/page-header";
 import { LazyImage } from "@/components/lazy-image";
-import { galleryImages, photo } from "@/data/site";
+import { galleryImages, galleryCategories, photo } from "@/data/site";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
