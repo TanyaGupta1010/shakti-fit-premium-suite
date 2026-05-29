@@ -17,7 +17,7 @@ import { ScrollProgress } from "../components/scroll-progress";
 import { BackToTop } from "../components/back-to-top";
 import { FloatingWhatsApp } from "../components/floating-whatsapp";
 
-const themeScript = `(function(){try{var t=localStorage.getItem('sfa-theme');if(t!=='light'){document.documentElement.classList.add('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem('sfa-theme');if(t==='dark'){document.documentElement.classList.add('dark');}}catch(e){}})();`;
 
 function NotFoundComponent() {
   return (
@@ -101,6 +101,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "ShaktiFit Arena" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@ShaktiFit" },
+      { name: "twitter:title", content: "ShaktiFit Arena — Premium Fitness in Noida" },
+      { name: "description", content: "ShaktiFit Arena Reimagined is a premium luxury fitness website for an Indian gym brand." },
+      { property: "og:description", content: "ShaktiFit Arena Reimagined is a premium luxury fitness website for an Indian gym brand." },
+      { name: "twitter:description", content: "ShaktiFit Arena Reimagined is a premium luxury fitness website for an Indian gym brand." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/bee8403a-b56a-44e6-b66b-d18fafdfcb00/id-preview-6632b385--8def480b-c53a-41ab-ad88-29af86842866.lovable.app-1780082897799.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/bee8403a-b56a-44e6-b66b-d18fafdfcb00/id-preview-6632b385--8def480b-c53a-41ab-ad88-29af86842866.lovable.app-1780082897799.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
