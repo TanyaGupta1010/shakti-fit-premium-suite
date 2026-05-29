@@ -152,21 +152,24 @@ export function TestimonialCard({
 
 export function PlanCard({
   plan,
+  cycle,
 }: {
   plan: {
     name: string;
-    price: number;
     tagline: string;
     popular: boolean;
+    price: { monthly: number; quarterly: number; annual: number };
     features: { label: string; on: boolean }[];
   };
+  cycle: "monthly" | "quarterly" | "annual";
 }) {
+  const period = cycle === "monthly" ? "/month" : cycle === "quarterly" ? "/quarter" : "/year";
   return (
     <RevealItem
       className={`relative flex flex-col rounded-3xl p-8 ring-1 transition-transform duration-500 ${
         plan.popular
-          ? "scale-[1.02] bg-primary text-primary-foreground ring-primary shadow-elegant lg:scale-105"
-          : "bg-card text-foreground ring-border shadow-soft hover:-translate-y-1"
+          ? "scale-[1.02] bg-secondary text-primary-foreground ring-accent/40 shadow-elegant lg:scale-105"
+          : "bg-card text-card-foreground ring-border shadow-soft hover:-translate-y-1"
       }`}
     >
       {plan.popular && (
@@ -179,9 +182,9 @@ export function PlanCard({
         {plan.tagline}
       </p>
       <div className="mt-6 flex items-end gap-1">
-        <span className="text-4xl font-bold">₹{plan.price.toLocaleString("en-IN")}</span>
+        <span className="text-4xl font-bold">₹{plan.price[cycle].toLocaleString("en-IN")}</span>
         <span className={`pb-1.5 text-sm ${plan.popular ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
-          /month
+          {period}
         </span>
       </div>
       <ul className="mt-7 flex-1 space-y-3">
@@ -206,7 +209,7 @@ export function PlanCard({
       <Link
         to="/contact"
         className={`mt-8 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:scale-[1.03] ${
-          plan.popular ? "bg-accent text-accent-foreground" : "bg-primary text-primary-foreground"
+          plan.popular ? "bg-accent text-accent-foreground" : "bg-accent text-accent-foreground"
         }`}
       >
         Choose {plan.name}
@@ -214,3 +217,4 @@ export function PlanCard({
     </RevealItem>
   );
 }
+
