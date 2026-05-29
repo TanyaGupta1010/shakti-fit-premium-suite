@@ -1,21 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Play, Dumbbell, Users, HeartPulse, Sparkles, Activity, Waves, Flower2, Lock } from "lucide-react";
+import {
+  ArrowRight, Play, Dumbbell, Users, HeartPulse, Sparkles, Activity, Waves, Flower2, Lock,
+  Award, UserCog, Apple, CalendarCheck, Zap, Droplets, Target, ShieldCheck, Star,
+} from "lucide-react";
 import { LazyImage } from "@/components/lazy-image";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { Counter } from "@/components/counter";
 import { SectionHeading } from "@/components/section-heading";
-import { ProgramCard, FacilityCard, TrainerCard, TestimonialCard, PlanCard } from "@/components/cards";
+import { ProgramCard, FacilityCard, TrainerCard } from "@/components/cards";
+import { MembershipPlans } from "@/components/membership-plans";
+import { TestimonialsCarousel } from "@/components/testimonials-carousel";
+import { Transformations } from "@/components/transformations";
+import { BmiCalculator } from "@/components/bmi-calculator";
+import { Faq } from "@/components/faq";
 import { CtaSection } from "@/components/cta-section";
 import {
-  business,
-  heroImage,
-  whyChooseUs,
-  programs,
-  facilities,
-  trainers,
-  testimonials,
-  plans,
-  stats,
+  business, heroImage, whyChooseUs, programs, facilities, trainers, stats, coreValues, photo,
 } from "@/data/site";
 
 export const Route = createFileRoute("/")({
@@ -25,10 +25,10 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Build strength and transform your life at ShaktiFit Arena, Noida's premium fitness destination. Expert trainers, world-class equipment and real results.",
+          "ShaktiFit Arena is India's premium fitness destination. Elite trainers, world-class equipment, personalized coaching and proven transformation programs in Noida.",
       },
       { property: "og:title", content: "ShaktiFit Arena — Premium Fitness Gym in Noida" },
-      { property: "og:description", content: "India's premium fitness destination helping members achieve real results." },
+      { property: "og:description", content: "Train smarter, get stronger, become unstoppable at India's premium fitness destination." },
       { property: "og:image", content: heroImage },
     ],
     links: [{ rel: "canonical", href: "/" }],
@@ -36,7 +36,15 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const iconMap = { Dumbbell, Users, HeartPulse, Sparkles, Activity, Waves, Flower2, Lock } as const;
+const iconMap = {
+  Dumbbell, Users, HeartPulse, Sparkles, Activity, Waves, Flower2, Lock,
+  Award, UserCog, Apple, CalendarCheck, Zap, Droplets, Target, ShieldCheck,
+} as const;
+
+function Icon({ name, className }: { name: string; className?: string }) {
+  const C = iconMap[name as keyof typeof iconMap] ?? Dumbbell;
+  return <C className={className} />;
+}
 
 function Home() {
   return (
@@ -45,25 +53,28 @@ function Home() {
       <section className="relative isolate flex min-h-screen items-center overflow-hidden">
         <LazyImage
           src={heroImage}
-          alt="Athlete training at ShaktiFit Arena"
+          alt="Athletes training at ShaktiFit Arena"
           loading="eager"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0" style={{ background: "var(--gradient-hero)", opacity: 0.82 }} />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent" />
+        <div className="absolute inset-0" style={{ background: "var(--gradient-hero)", opacity: 0.9 }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
 
         <div className="container-px relative pt-24">
           <Reveal className="max-w-3xl">
             <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-accent">
               <Sparkles className="h-3.5 w-3.5" /> Noida · Est. {business.founded}
             </span>
-            <h1 className="text-4xl font-bold leading-[1.03] text-primary-foreground sm:text-6xl lg:text-7xl">
-              Build Strength.
+            <h1 className="text-4xl font-bold leading-[1.02] text-primary-foreground sm:text-6xl lg:text-7xl">
+              Train Smarter.
               <br />
-              <span className="text-gradient">Transform Your Life.</span>
+              Get Stronger.
+              <br />
+              <span className="text-gradient">Become Unstoppable.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-base text-primary-foreground/75 sm:text-lg">
-              India's premium fitness destination helping members achieve real, measurable results — with world-class coaching, equipment and recovery.
+            <p className="mt-6 max-w-xl text-base text-primary-foreground/80 sm:text-lg">
+              India's premium fitness destination with elite trainers, world-class equipment,
+              personalized coaching, and proven transformation programs.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -84,124 +95,167 @@ function Home() {
       </section>
 
       {/* STATS */}
-      <section className="border-b border-border bg-card">
+      <section className="border-b border-border bg-secondary">
         <div className="container-px grid grid-cols-2 gap-8 py-12 lg:grid-cols-4">
           {stats.map((s) => (
             <Reveal key={s.label} className="text-center">
-              <p className="font-display text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
+              <p className="font-display text-3xl font-bold text-primary-foreground sm:text-4xl lg:text-5xl">
                 <Counter value={s.value} suffix={s.suffix} />
               </p>
-              <p className="mt-1.5 text-sm text-muted-foreground">{s.label}</p>
+              <p className="mt-1.5 text-sm text-primary-foreground/60">{s.label}</p>
             </Reveal>
           ))}
         </div>
       </section>
 
+      {/* ABOUT PREVIEW */}
+      <section className="container-px py-16 lg:py-24">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          <Reveal>
+            <div className="relative">
+              <LazyImage src={photo(1, 1000)} alt="Inside ShaktiFit Arena" className="aspect-[4/3] w-full rounded-3xl object-cover shadow-elegant" />
+              <div className="absolute -bottom-6 -right-4 hidden rounded-2xl bg-accent p-5 text-accent-foreground shadow-elegant sm:block">
+                <p className="font-display text-3xl font-bold">6+</p>
+                <p className="text-xs font-medium">Years of Excellence</p>
+              </div>
+            </div>
+          </Reveal>
+          <div>
+            <SectionHeading
+              align="left"
+              eyebrow="Our Story"
+              title="More than a gym — a performance institution"
+              subtitle="Founded in 2018 by Raj Malhotra, ShaktiFit Arena set out to bring world-class training to India. Today we're home to 5000+ members and a team of elite coaches obsessed with your results."
+            />
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {coreValues.map((v) => (
+                <Reveal key={v.title} className="rounded-2xl border border-border bg-card p-5">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/12 text-accent">
+                    <Icon name={v.icon} className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-3 font-bold">{v.title}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{v.desc}</p>
+                </Reveal>
+              ))}
+            </div>
+            <Link to="/about" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
+              Read our full story <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* WHY CHOOSE US */}
-      <section className="container-px py-20 lg:py-28">
-        <SectionHeading
-          eyebrow="Why Choose Us"
-          title="A smarter way to train"
-          subtitle="Everything under one roof to help you train harder, recover better and stay consistent."
-        />
-        <RevealStagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {whyChooseUs.map((w) => {
-            const Icon = iconMap[w.icon as keyof typeof iconMap];
-            return (
-              <Reveal key={w.title} className="rounded-3xl bg-card p-7 shadow-soft ring-1 ring-border transition-shadow hover:shadow-elegant">
+      <section className="bg-secondary/40 py-16 lg:py-24">
+        <div className="container-px">
+          <SectionHeading
+            eyebrow="Why Choose Us"
+            title="Everything you need to win"
+            subtitle="Premium coaching, equipment and support — all under one roof."
+          />
+          <RevealStagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {whyChooseUs.map((w) => (
+              <Reveal key={w.title} className="rounded-3xl bg-card p-7 shadow-soft ring-1 ring-border transition-all hover:-translate-y-1 hover:shadow-elegant">
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/12 text-accent">
-                  <Icon className="h-6 w-6" />
+                  <Icon name={w.icon} className="h-6 w-6" />
                 </span>
                 <h3 className="mt-5 text-lg font-bold">{w.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{w.desc}</p>
               </Reveal>
-            );
-          })}
-        </RevealStagger>
-      </section>
-
-      {/* FEATURED PROGRAMS */}
-      <section className="bg-muted/40 py-20 lg:py-28">
-        <div className="container-px">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading
-              align="left"
-              eyebrow="Programs"
-              title="Featured programs"
-              subtitle="Specialised training tracks designed by certified coaches."
-            />
-            <Link to="/programs" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
-              View all programs <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <RevealStagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {programs.slice(0, 3).map((p) => (
-              <ProgramCard key={p.name} program={p} />
             ))}
           </RevealStagger>
         </div>
       </section>
 
-      {/* MEMBERSHIP PREVIEW */}
-      <section className="container-px py-20 lg:py-28">
-        <SectionHeading
-          eyebrow="Membership"
-          title="Plans for every goal"
-          subtitle="Flexible monthly memberships with no hidden fees. Cancel anytime."
-        />
-        <RevealStagger className="mt-14 grid items-start gap-6 lg:grid-cols-3">
-          {plans.map((p) => (
-            <PlanCard key={p.name} plan={p} />
+      {/* PROGRAMS */}
+      <section className="container-px py-16 lg:py-24">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <SectionHeading align="left" eyebrow="Programs" title="Train with purpose" subtitle="Specialised tracks designed by certified coaches for every goal." />
+          <Link to="/programs" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
+            View all programs <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <RevealStagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {programs.map((p) => (
+            <ProgramCard key={p.name} program={p} />
           ))}
         </RevealStagger>
       </section>
 
-      {/* TRAINER HIGHLIGHTS */}
-      <section className="bg-muted/40 py-20 lg:py-28">
+      {/* MEMBERSHIPS */}
+      <section className="bg-secondary/40 py-16 lg:py-24">
         <div className="container-px">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading align="left" eyebrow="Coaches" title="Meet your trainers" subtitle="Certified experts invested in your progress." />
-            <Link to="/trainers" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
-              All trainers <ArrowRight className="h-4 w-4" />
-            </Link>
+          <SectionHeading eyebrow="Memberships" title="Choose your plan" subtitle="Flexible monthly, quarterly and annual plans with no hidden fees." />
+          <div className="mt-10">
+            <MembershipPlans />
           </div>
-          <RevealStagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {trainers.slice(0, 3).map((t) => (
-              <TrainerCard key={t.name} trainer={t} />
-            ))}
-          </RevealStagger>
+          <p className="mt-8 text-center text-sm text-muted-foreground">
+            Need a full comparison?{" "}
+            <Link to="/membership" className="font-semibold text-accent hover:underline">See the detailed table</Link>
+          </p>
         </div>
       </section>
 
-      {/* FACILITIES PREVIEW */}
-      <section className="container-px py-20 lg:py-28">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading align="left" eyebrow="Facilities" title="World-class spaces" subtitle="Premium zones for every kind of training." />
-          <Link to="/facilities" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
-            Explore facilities <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
+      {/* TRAINERS */}
+      <section className="container-px py-16 lg:py-24">
+        <SectionHeading eyebrow="Elite Coaches" title="Meet your trainers" subtitle="Certified experts personally invested in your transformation." />
         <RevealStagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {facilities.slice(0, 3).map((f) => (
+          {trainers.map((t) => (
+            <TrainerCard key={t.name} trainer={t} />
+          ))}
+        </RevealStagger>
+      </section>
+
+      {/* TRANSFORMATIONS */}
+      <section className="bg-secondary/40 py-16 lg:py-24">
+        <div className="container-px">
+          <SectionHeading eyebrow="Transformation Stories" title="Real members, real results" subtitle="Hundreds of transformations powered by coaching, consistency and community." />
+          <Transformations />
+          <div className="mt-12 grid grid-cols-2 gap-6 lg:grid-cols-4">
+            {[
+              { v: 1200, s: "+", l: "Transformations" },
+              { v: 18, s: "k+", l: "Kgs Lost" },
+              { v: 95, s: "%", l: "Hit Their Goal" },
+              { v: 4900, s: "+", l: "5-Star Reviews" },
+            ].map((m) => (
+              <Reveal key={m.l} className="rounded-2xl border border-border bg-card p-6 text-center">
+                <p className="font-display text-3xl font-bold text-accent"><Counter value={m.v} suffix={m.s} /></p>
+                <p className="mt-1 text-sm text-muted-foreground">{m.l}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FACILITIES */}
+      <section className="container-px py-16 lg:py-24">
+        <SectionHeading eyebrow="Facilities" title="World-class spaces" subtitle="Premium, spotless zones engineered for every kind of training." />
+        <RevealStagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {facilities.map((f) => (
             <FacilityCard key={f.name} facility={f} />
           ))}
         </RevealStagger>
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="bg-muted/40 py-20 lg:py-28">
+      <section className="bg-secondary/40 py-16 lg:py-24">
         <div className="container-px">
-          <SectionHeading eyebrow="Success Stories" title="Loved by our members" subtitle="Real reviews from the ShaktiFit community." />
-          <RevealStagger className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {testimonials.slice(0, 3).map((t) => (
-              <TestimonialCard key={t.name} t={t} />
-            ))}
-          </RevealStagger>
-          <div className="mt-10 text-center">
-            <Link to="/testimonials" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
-              Read more stories <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+          <SectionHeading eyebrow="Reviews" title="Loved by our community" subtitle="Verified reviews from members across Noida & Delhi NCR." />
+          <TestimonialsCarousel />
+        </div>
+      </section>
+
+      {/* BMI */}
+      <section className="container-px py-16 lg:py-24">
+        <SectionHeading eyebrow="BMI Calculator" title="Know your numbers" subtitle="Calculate your Body Mass Index and get a personalised coaching recommendation." />
+        <BmiCalculator />
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-secondary/40 py-16 lg:py-24">
+        <div className="container-px">
+          <SectionHeading eyebrow="FAQ" title="Questions, answered" subtitle="Everything you need to know before you join ShaktiFit Arena." />
+          <Faq />
         </div>
       </section>
 
